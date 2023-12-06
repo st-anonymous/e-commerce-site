@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "",
-    "server": "nodemon --exec babel-node server/server.js",
-    "client": "parcel client/index.html -p 3000",
+    "server": "nodemon --exec babel-node src/server/server.js",
+    "client": "parcel src/client/index.html -p 3000",
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Suryakanta Indrajit",
