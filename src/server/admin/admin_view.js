@@ -16,6 +16,7 @@ export const generate_coupon = (req, res) => {
   const { user_id } = req.body;
   try {
     const user = find_user_by_id(user_id);
+    console.log(user_id, user);
     if (user === null) {
       res
         .status(404)
