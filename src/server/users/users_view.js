@@ -1,5 +1,4 @@
 import axios from "axios";
-import database from "../db";
 import {
   add_user,
   find_user_by_id,
@@ -9,6 +8,12 @@ import {
 import { create_id } from "../utils/create_id";
 import admin_auth from "../db/admin_auth";
 import { find_item_by_id } from "../db/schema_items";
+import {
+  add_new_order,
+  calculate_cart_discount,
+  find_order_by_id,
+  update_order_details,
+} from "../db/schema_orders";
 
 export const login = (req, res) => {
   // for login phone number is required...
@@ -79,7 +84,7 @@ export const create_cart = async (req, res) => {
     user = generate_coupon.data;
 
     // update users...
-    update_user_details(user_id, { ...user.data });
+    user = update_user_details(user_id, { ...user.data });
 
     // returns the user data...
     res.status(200).json({ ...user, message: "cart created successfully" });
@@ -96,6 +101,14 @@ export const update_cart = (req, res) => {
     let user = find_user_by_id(user_id);
     if (!user) {
       res.status(404).json({ message: "no such user found" });
+      return;
+    }
+    // check if cart exists already...
+    if (user.cart.length === 0) {
+      res.status(400).json({
+        message: "cart empty for the user, please create cart...",
+        data: user,
+      });
       return;
     }
     // let's check if item is already in the cart. If it's already in cart just change the counter else add the item.
@@ -141,6 +154,77 @@ export const update_cart = (req, res) => {
 
     // returns the user data...
     res.status(200).json({ data: user });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "something went wrong" });
+  }
+};
+
+export const checkout = (req, res) => {
+  const { user_id, applied_coupon_code } = req.body;
+  try {
+    // check if any user with the user_id exists...
+    let user = find_user_by_id(user_id);
+    if (!user) {
+      res.status(404).json({ message: "no such user found" });
+      return;
+    }
+    const { available_coupon_code, total_orders, cart } = user;
+    // check if cart is empty...
+    if (!cart.length) {
+      res
+        .status(404)
+        .json({ message: "no items in the cart available for checkoout" });
+      return;
+    }
+
+    // if coupon code is applied and it's not same as available one then let the user know it's invalid...
+    if (applied_coupon_code && available_coupon_code !== applied_coupon_code) {
+      res.status(404).json({ message: "invalid coupon code" });
+      return;
+    }
+    // let's calculate the total amount, discount and items...
+    let total_cart_amount = 0,
+      total_cart_items = 0,
+      discount_amount = 0,
+      total_order_amount = 0;
+    cart.forEach((item) => {
+      total_cart_items += item.item_count;
+      total_cart_amount += item.item_count * item.item_price;
+    });
+    total_order_amount = total_cart_amount;
+    if (applied_coupon_code) {
+      discount_amount = calculate_cart_discount(total_cart_amount);
+      total_order_amount -= discount_amount;
+    }
+    // create a unique order_id
+    let order_id;
+    while (true) {
+      order_id = create_id("oid", 12);
+      if (!find_order_by_id(order_id)) break;
+    }
+    const new_order = {
+      order_id,
+      order_time: new Date(),
+      user_id,
+      total_cart_amount,
+      applied_coupon_code,
+      discount_amount,
+      total_order_amount,
+    };
+    add_new_order(new_order);
+    update_order_details(
+      total_cart_items,
+      total_order_amount,
+      discount_amount,
+      applied_coupon_code
+    );
+    user = update_user_details(user_id, {
+      available_coupon_code: applied_coupon_code ? null : available_coupon_code,
+      total_orders: total_orders + 1,
+      cart: [],
+    });
+    res.status(200).json({ data: new_order, message: "order successful" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "something went wrong" });
