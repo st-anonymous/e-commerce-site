@@ -19,7 +19,7 @@ export let coupon_codes = [];
 export let users = [];
 // user_type = {
 //   user_id: string;
-//   user_name: string;
+//   phone: string;
 //   available_coupon_code: string;
 //   next_coupon_code_avail_on: number;
 //   total_orders: number;

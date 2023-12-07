@@ -1,5 +1,15 @@
 import { n, users } from ".";
 
+// find user from users by phone, returns null if not found. (useful during login)
+export const find_user_by_phone = (phone) => {
+  users.forEach((user) => {
+    if (user.phone === phone) {
+      return user;
+    }
+  });
+  return null;
+};
+
 // find user from users by user_id, returns null if not found.
 export const find_user_by_id = (user_id) => {
   users.forEach((user) => {
@@ -22,10 +32,11 @@ export const update_user_details = (user_id, updated_details) => {
   return new_user_details;
 };
 
-export const add_user = (user_id, user_name) => {
+// used to add a new user to users schema...
+export const add_user = (user_id, phone) => {
   const new_user_details = {
     user_id,
-    user_name,
+    phone,
     available_coupon_code: null,
     next_coupon_code_avail_on: n,
     total_orders: 0,

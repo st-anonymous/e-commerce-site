@@ -20,6 +20,7 @@ export const generate_coupon = (req, res) => {
       res
         .status(404)
         .json({ message: `no user found with this user_id: ${user_id}` });
+      return;
     }
 
     const {
