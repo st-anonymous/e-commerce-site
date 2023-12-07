@@ -1,5 +1,5 @@
 import axios from "axios";
-import database, { items } from "../db";
+import database from "../db";
 import {
   add_user,
   find_user_by_id,
@@ -8,6 +8,7 @@ import {
 } from "../db/schema_users";
 import { create_id } from "../utils/create_id";
 import admin_auth from "../db/admin_auth";
+import { find_item_by_id } from "../db/schema_items";
 
 export const login = (req, res) => {
   // for login phone number is required...
@@ -17,7 +18,12 @@ export const login = (req, res) => {
     let user = find_user_by_phone(phone);
     // if no user is found, create a new user...
     if (!user) {
-      const user_id = create_id("uid", 9);
+      let user_id;
+      // let's generate a unique user_id that's not available already...
+      while (true) {
+        user_id = create_id("uid", 9);
+        if (!find_user_by_id(user_id)) break;
+      }
       user = add_user(user_id, phone);
     }
     // returns the user data...
@@ -46,7 +52,7 @@ export const create_cart = async (req, res) => {
       return;
     }
     // let's add the item, as it is the 1st time item is added to cart...
-    const item = database.items.filter((item) => item.item_id === item_id)[0];
+    const item = find_item_by_id(item_id);
     if (!item) {
       res.status(404).json({ message: "no such item found" });
       return;
@@ -95,7 +101,14 @@ export const update_cart = (req, res) => {
       }
     });
     if (!item_found) {
-      const item = database.items.filter((item) => item.item_id === item_id)[0];
+      if (item_count <= 0) {
+        res.status(400).json({
+          data: user,
+          message: `can't remove items that is not available`,
+        });
+        return;
+      }
+      const item = find_item_by_id(item_id);
       user_cart.push({ ...item, item_count });
     } else {
       const curr_item_count = item_found.item_count;
@@ -106,6 +119,7 @@ export const update_cart = (req, res) => {
           data: user,
           message: `can't remove more items than available`,
         });
+        return;
       } else if (new_item_count === 0) {
         // not include anything in user_cart... it will simply remove the item from cart...
       } else {
