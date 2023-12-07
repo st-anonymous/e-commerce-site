@@ -1,4 +1,4 @@
-import { n } from "../db";
+import database from "../db";
 import {
   add_coupon_code,
   find_coupon_code,
@@ -14,6 +14,7 @@ export const generate_coupon = (req, res) => {
       res
         .status(404)
         .json({ message: `no user found with this user_id: ${user_id}` });
+      return;
     }
 
     const {
@@ -46,14 +47,16 @@ export const generate_coupon = (req, res) => {
       // add the new coupon code to the coupon_codes_schema
       add_coupon_code(coupon_code, user_id);
       // increase the next_coupon_code_avail_on value by n days;
-      next_coupon_code_avail_on += n;
+      next_coupon_code_avail_on += database.n;
     }
     const new_user_details = update_user_details(user_id, {
       available_coupon_code: coupon_code,
       next_coupon_code_avail_on: next_coupon_code_avail_on,
     });
     res.status(200).json({
-      message: "coupon_code successfully generated",
+      message: coupon_code
+        ? "coupon_code successfully generated"
+        : "not eligible for coupon code",
       data: new_user_details,
     });
   } catch (error) {
@@ -61,4 +64,19 @@ export const generate_coupon = (req, res) => {
     res.status(400).json({ message: "something went wrong" });
   }
 };
-export const stats = (req, res) => {};
+export const stats = (req, res) => {
+  const {
+    count_of_items_purchased,
+    total_purchase_amount,
+    redeemed_coupon_codes,
+    total_discount_amount,
+  } = database;
+  res.status(200).json({
+    data: {
+      count_of_items_purchased,
+      total_purchase_amount,
+      redeemed_coupon_codes,
+      total_discount_amount,
+    },
+  });
+};

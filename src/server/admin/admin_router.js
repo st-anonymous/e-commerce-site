@@ -6,7 +6,7 @@ const admin_router = express.Router();
 
 // middleware to authenticate admin access
 admin_router.use("*", (req, res, next) => {
-  const { admin_id, admin_pass } = req.body;
+  const { admin_id, admin_pass } = req.headers;
   if (
     admin_id === admin_auth.admin_id &&
     admin_pass === admin_auth.admin_pass
