@@ -1,7 +1,26 @@
 const n = 5; //coupon code to be provided on nth order
 const off = 10; // % of offer on coupon code
 
-let items = [];
+let items = [
+  {
+    item_id: "item1001",
+    item_name: "cricket bat",
+    item_description: "used by batsmen to bat and score runs",
+    item_price: 5000,
+  },
+  {
+    item_id: "item1002",
+    item_name: "cricket ball",
+    item_description: "used by bowler to ball and take wickets",
+    item_price: 450,
+  },
+  {
+    item_id: "item1003",
+    item_name: "tennis bat",
+    item_description: "used by tennis player",
+    item_price: 3500,
+  },
+];
 // item_type = {
 //   item_id: string;
 //   item_name: string;
@@ -51,6 +70,8 @@ let redeemed_coupon_codes = [];
 let total_discount_amount = 0;
 
 const database = {
+  n,
+  off,
   items,
   coupon_codes,
   users,

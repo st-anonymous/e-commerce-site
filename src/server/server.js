@@ -15,6 +15,6 @@ app.use("/users", users_router);
 
   // Run the server
   app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Backend Server is running on http://localhost:${PORT}`);
   });
 })();

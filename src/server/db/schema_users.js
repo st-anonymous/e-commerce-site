@@ -3,7 +3,6 @@ import database from ".";
 // find user from users by phone, returns null if not found. (useful during login)
 export const find_user_by_phone = (phone) => {
   const user = database.users.filter((user) => user.phone === phone)[0];
-  console.log(user);
   return user;
 };
 
@@ -21,7 +20,7 @@ export const update_user_details = (user_id, updated_details) => {
       return (new_user_details = { ...item, ...updated_details });
     }
   });
-  db.users = new_users;
+  database.users = new_users;
   return new_user_details;
 };
 
@@ -31,7 +30,7 @@ export const add_user = (user_id, phone) => {
     user_id,
     phone,
     available_coupon_code: null,
-    next_coupon_code_avail_on: n,
+    next_coupon_code_avail_on: database.n,
     total_orders: 0,
     cart: [],
   };
