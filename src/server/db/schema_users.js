@@ -18,6 +18,8 @@ export const update_user_details = (user_id, updated_details) => {
   const new_users = database.users.map((item) => {
     if (item.user_id === user_id) {
       return (new_user_details = { ...item, ...updated_details });
+    } else {
+      return item;
     }
   });
   database.users = new_users;

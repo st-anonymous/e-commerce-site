@@ -3,7 +3,7 @@ import database from ".";
 // used to update a coupon code status...
 // returns updated coupon code... If no such coupon code found returns null...
 export const update_coupon_code = (coupon_code, updated_details) => {
-  const new_coupon_code_details = null;
+  let new_coupon_code_details = null;
   const new_coupon_codes = database.coupon_codes.map((item) => {
     if (item.coupon_code === coupon_code) {
       return (new_coupon_code_details = { ...item, ...updated_details });

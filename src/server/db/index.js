@@ -1,4 +1,4 @@
-const n = 5; //coupon code to be provided on nth order
+const n = 2; //coupon code to be provided on nth order
 const off = 10; // % of offer on coupon code
 
 let items = [
@@ -59,9 +59,9 @@ let orders = [];
 //   order_time: Date;
 //   user_id: string;
 //   total_cart_amount: number;
-//   coupon_code: string;
+//   applied_coupon_code: string;
 //   discount_amount: number;
-//   order_amount: number;
+//   total_order_amount: number;
 // };
 
 let count_of_items_purchased = 0;
