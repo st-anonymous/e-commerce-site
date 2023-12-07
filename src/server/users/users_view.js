@@ -15,7 +15,7 @@ import {
   update_order_details,
 } from "../db/schema_orders";
 
-export const login = (req, res) => {
+export const user_login = (req, res) => {
   // for login phone number is required...
   const { phone } = req.body;
   try {

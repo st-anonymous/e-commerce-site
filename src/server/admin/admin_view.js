@@ -7,6 +7,9 @@ import {
 import { find_user_by_id, update_user_details } from "../db/schema_users";
 import { create_id } from "../utils/create_id";
 
+export const admin_login = (req, res) => {
+  res.status(200).json({ message: "logged in as admin" });
+};
 export const generate_coupon = (req, res) => {
   const { user_id } = req.body;
   try {
