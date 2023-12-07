@@ -51,6 +51,14 @@ export const create_cart = async (req, res) => {
       });
       return;
     }
+    // negative item_count can't be added at the first time...
+    if (item_count <= 0) {
+      res.status(400).json({
+        data: user,
+        message: `can't remove items that is not available`,
+      });
+      return;
+    }
     // let's add the item, as it is the 1st time item is added to cart...
     const item = find_item_by_id(item_id);
     if (!item) {
@@ -101,6 +109,7 @@ export const update_cart = (req, res) => {
       }
     });
     if (!item_found) {
+      // new item with negative count can't be added...
       if (item_count <= 0) {
         res.status(400).json({
           data: user,
