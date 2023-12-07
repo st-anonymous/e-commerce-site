@@ -1,4 +1,10 @@
-import { n } from "../db";
+import {
+  count_of_items_purchased,
+  n,
+  redeemed_coupon_codes,
+  total_discount_amount,
+  total_purchase_amount,
+} from "../db";
 import {
   add_coupon_code,
   find_coupon_code,
@@ -61,4 +67,13 @@ export const generate_coupon = (req, res) => {
     res.status(400).json({ message: "something went wrong" });
   }
 };
-export const stats = (req, res) => {};
+export const stats = (req, res) => {
+  res.status(200).json({
+    data: {
+      count_of_items_purchased,
+      total_purchase_amount,
+      redeemed_coupon_codes,
+      total_discount_amount,
+    },
+  });
+};
