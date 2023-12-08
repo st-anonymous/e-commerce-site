@@ -1,26 +1,12 @@
 const n = 2; //coupon code to be provided on nth order
 const off = 10; // % of offer on coupon code
 
-let items = [
-  {
-    item_id: "item1001",
-    item_name: "cricket bat",
-    item_description: "used by batsmen to bat and score runs",
-    item_price: 5000,
-  },
-  {
-    item_id: "item1002",
-    item_name: "cricket ball",
-    item_description: "used by bowler to ball and take wickets",
-    item_price: 450,
-  },
-  {
-    item_id: "item1003",
-    item_name: "tennis bat",
-    item_description: "used by tennis player",
-    item_price: 3500,
-  },
-];
+let items = Array.from({ length: 24 }, (_, index) => ({
+  item_id: `item${1000 + index}`,
+  item_name: `Item ${index + 1}`,
+  item_description: `Description for Item ${index + 1}`,
+  item_price: Math.floor(Math.random() * 5000) + 100,
+}));
 // item_type = {
 //   item_id: string;
 //   item_name: string;
