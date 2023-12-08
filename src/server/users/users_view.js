@@ -87,7 +87,9 @@ export const create_cart = async (req, res) => {
     user = update_user_details(user_id, { ...user.data });
 
     // returns the user data...
-    res.status(200).json({ ...user, message: "cart created successfully" });
+    res
+      .status(200)
+      .json({ data: { ...user }, message: "cart created successfully" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "something went wrong" });
