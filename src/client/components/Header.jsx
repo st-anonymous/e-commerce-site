@@ -32,7 +32,44 @@ const Header = () => {
               position: "relative",
             }}
           >
-            {userData?.cart?.length ? (
+            {authData.showCart ? (
+              <button
+                onClick={() =>
+                  setAuthData((prev) => {
+                    return { ...prev, showCart: false };
+                  })
+                }
+                style={{
+                  fontSize: 24,
+                  border: "1px solid grey",
+                  borderRadius: 10,
+                  backgroundColor: "#25c379",
+                  cursor: "pointer",
+                  padding: 10,
+                }}
+              >
+                home
+              </button>
+            ) : (
+              <button
+                onClick={() =>
+                  setAuthData((prev) => {
+                    return { ...prev, showCart: true };
+                  })
+                }
+                style={{
+                  fontSize: 24,
+                  border: "1px solid grey",
+                  borderRadius: 10,
+                  backgroundColor: "#25c379",
+                  cursor: "pointer",
+                  padding: 10,
+                }}
+              >
+                cart
+              </button>
+            )}
+            {userData?.cart?.length && !authData.showCart ? (
               <div
                 style={{
                   backgroundColor: "red",
@@ -45,23 +82,6 @@ const Header = () => {
                 }}
               />
             ) : null}
-            <button
-              onClick={() =>
-                setAuthData((prev) => {
-                  return { ...prev, showCart: true };
-                })
-              }
-              style={{
-                fontSize: 24,
-                border: "1px solid grey",
-                borderRadius: 10,
-                backgroundColor: "#25c379",
-                cursor: "pointer",
-                padding: 10,
-              }}
-            >
-              cart
-            </button>
           </div>
           <div
             style={{
