@@ -51,23 +51,25 @@ const Header = () => {
                 home
               </button>
             ) : (
-              <button
-                onClick={() =>
-                  setAuthData((prev) => {
-                    return { ...prev, showCart: true };
-                  })
-                }
-                style={{
-                  fontSize: 24,
-                  border: "1px solid grey",
-                  borderRadius: 10,
-                  backgroundColor: "#25c379",
-                  cursor: "pointer",
-                  padding: 10,
-                }}
-              >
-                cart
-              </button>
+              authData.loginType === "user" && (
+                <button
+                  onClick={() =>
+                    setAuthData((prev) => {
+                      return { ...prev, showCart: true };
+                    })
+                  }
+                  style={{
+                    fontSize: 24,
+                    border: "1px solid grey",
+                    borderRadius: 10,
+                    backgroundColor: "#25c379",
+                    cursor: "pointer",
+                    padding: 10,
+                  }}
+                >
+                  cart
+                </button>
+              )
             )}
             {userData?.cart?.length && !authData.showCart ? (
               <div

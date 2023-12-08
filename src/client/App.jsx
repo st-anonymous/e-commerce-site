@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import ItemsContainer from "./components/ItemsContainer";
 import Login from "./components/Login";
 import AuthData from "./data/AuthData";
+import Admin from "./components/Admin";
 
 const App = () => {
   const authData = useRecoilValue(AuthData);
@@ -20,7 +21,7 @@ const App = () => {
         authData.loginType === "user" ? (
           <ItemsContainer />
         ) : (
-          <div>Admin Login</div>
+          <Admin />
         )
       ) : (
         <Login />
