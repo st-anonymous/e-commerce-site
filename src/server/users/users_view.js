@@ -226,7 +226,9 @@ export const checkout = (req, res) => {
       total_orders: total_orders + 1,
       cart: [],
     });
-    res.status(200).json({ data: new_order, message: "order successful" });
+    res
+      .status(200)
+      .json({ user: user, data: new_order, message: "order successful" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "something went wrong" });
