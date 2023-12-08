@@ -49,7 +49,6 @@ export const generate_coupon = (req, res) => {
         new_available_coupon_code = create_id("", 12);
         if (!find_coupon_code(new_available_coupon_code)) break;
       }
-      console.log(new_available_coupon_code, "new_available_coupon_code");
       // add the new coupon code to the coupon_codes_schema
       add_coupon_code(new_available_coupon_code, user_id);
       new_next_coupon_code_avail_on += database.n;
@@ -58,7 +57,6 @@ export const generate_coupon = (req, res) => {
       available_coupon_code: new_available_coupon_code,
       next_coupon_code_avail_on: new_next_coupon_code_avail_on, // increase the next_coupon_code_avail_on value by n days;
     });
-    console.log(new_user_details, "new_user_details");
     res.status(200).json({
       message: new_available_coupon_code
         ? "new_available_coupon_code successfully generated"
