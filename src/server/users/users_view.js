@@ -14,6 +14,7 @@ import {
   find_order_by_id,
   update_order_details,
 } from "../db/schema_orders";
+import { update_coupon_code } from "../db/schema_coupon_codes";
 
 export const user_login = (req, res) => {
   // for login phone number is required...
@@ -226,6 +227,11 @@ export const checkout = (req, res) => {
       total_orders: total_orders + 1,
       cart: [],
     });
+    // update coupon_code status to redeemed...
+    if (applied_coupon_code)
+      update_coupon_code(applied_coupon_code, {
+        coupon_code_status: "redeemed",
+      });
     res
       .status(200)
       .json({ user: user, data: new_order, message: "order successful" });

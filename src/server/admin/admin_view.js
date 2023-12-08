@@ -84,3 +84,7 @@ export const stats = (req, res) => {
     },
   });
 };
+export const all_coupons = (req, res) => {
+  const { coupon_codes } = database;
+  res.status(200).json({ data: coupon_codes });
+};

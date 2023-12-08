@@ -19,12 +19,12 @@ const App = () => {
       <Header />
       {authData.loggedIn ? (
         authData.loginType === "user" ? (
-          <ItemsContainer />
+          <ItemsContainer /> // loggedIn user
         ) : (
-          <Admin />
+          <Admin /> // loggedIn admin
         )
       ) : (
-        <Login />
+        <Login /> // if user/admin is not loggedIn
       )}
     </div>
   );

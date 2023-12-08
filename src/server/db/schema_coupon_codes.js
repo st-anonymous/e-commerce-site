@@ -7,6 +7,8 @@ export const update_coupon_code = (coupon_code, updated_details) => {
   const new_coupon_codes = database.coupon_codes.map((item) => {
     if (item.coupon_code === coupon_code) {
       return (new_coupon_code_details = { ...item, ...updated_details });
+    } else {
+      return item;
     }
   });
   database.coupon_codes = new_coupon_codes;
