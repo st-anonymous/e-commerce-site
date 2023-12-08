@@ -1,5 +1,5 @@
 import express from "express";
-import { admin_login, generate_coupon, stats } from "./admin_view";
+import { admin_login, generate_coupon, stats, all_coupons } from "./admin_view";
 import admin_auth from "../db/admin_auth";
 
 const admin_router = express.Router();
@@ -20,5 +20,6 @@ admin_router.use("*", (req, res, next) => {
 admin_router.post("/login", admin_login);
 admin_router.post("/generate_coupon", generate_coupon);
 admin_router.get("/stats", stats);
+admin_router.get("/all_coupons", all_coupons);
 
 export default admin_router;

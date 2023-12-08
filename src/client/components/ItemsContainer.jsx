@@ -98,7 +98,7 @@ const ItemsContainer = () => {
         })}
       </div>
       {/* checkout functionality added */}
-      {authData.showCart ? (
+      {authData.showCart && userData.cart.length ? (
         <div
           style={{
             display: "flex",
@@ -123,7 +123,7 @@ const ItemsContainer = () => {
                 {userData.available_coupon_code}
               </div>
               <button
-                style={{ padding: 10, borderRadius: 10 }}
+                style={{ padding: 10, borderRadius: 10, cursor: "pointer" }}
                 onClick={ToggleApplyCode}
               >
                 {appliedCode ? "remove" : "apply"}
@@ -135,7 +135,7 @@ const ItemsContainer = () => {
             cartValue - discount
           }`}</div>
           <button
-            style={{ padding: 10, borderRadius: 15 }}
+            style={{ padding: 10, borderRadius: 15, cursor: "pointer" }}
             disabled={!cartValue}
             onClick={CheckoutHandler}
           >
