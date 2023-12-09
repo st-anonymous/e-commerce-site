@@ -45,7 +45,7 @@ const ItemsContainer = () => {
 
   useEffect(() => {
     if (cartValue && appliedCode) {
-      setDiscount(cartValue * 0.1);
+      setDiscount(cartValue * (database.off / 100));
     } else {
       setDiscount(0);
     }
