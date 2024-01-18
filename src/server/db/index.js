@@ -1,4 +1,5 @@
-const n = 2; //coupon code to be provided on nth order
+const n = 5; //coupon code to be provided on nth order
+const m = 3;
 const off = 10; // % of offer on coupon code
 
 let items = Array.from({ length: 24 }, (_, index) => ({
@@ -54,6 +55,7 @@ let count_of_items_purchased = 0;
 let total_purchase_amount = 0;
 let redeemed_coupon_codes = [];
 let total_discount_amount = 0;
+let total_order_on_special_day = 0;
 
 const database = {
   n,

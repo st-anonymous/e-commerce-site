@@ -11,7 +11,7 @@ export const admin_login = (req, res) => {
   res.status(200).json({ message: "logged in as admin" });
 };
 export const generate_coupon = (req, res) => {
-  const { user_id } = req.body;
+  const { user_id, special_day } = req.body;
   try {
     const user = find_user_by_id(user_id);
     if (!user) {
@@ -35,7 +35,7 @@ export const generate_coupon = (req, res) => {
     const order_number = total_orders + (cart.length ? 1 : 0);
 
     //check if he's available for a new new_available_coupon_code or not...
-    if (order_number < new_next_coupon_code_avail_on)
+    if (order_number < new_next_coupon_code_avail_on && !special_day)
       new_available_coupon_code = available_coupon_code;
     else {
       // expire the old coupon code before generating a new one...

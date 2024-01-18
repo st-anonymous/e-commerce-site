@@ -15,6 +15,7 @@ import {
   update_order_details,
 } from "../db/schema_orders";
 import { update_coupon_code } from "../db/schema_coupon_codes";
+import database from "../db";
 
 export const user_login = (req, res) => {
   // for login phone number is required...
@@ -215,6 +216,21 @@ export const checkout = (req, res) => {
       discount_amount,
       total_order_amount,
     };
+    const today = new Date();
+    if (today.getDate() === 26 && today.getMonth() === 0) {
+      database.total_order_on_special_day += 1;
+      if (database.total_order_on_special_day % database.m === 0) {
+        const generate_coupon_code = async () => {
+          const coupon_code = await axios.post(
+            "http://localhost:8080/admin/generate_coupon",
+            { user_id, special_day: true },
+            { headers }
+          );
+          available_coupon_code = coupon_code.data.available_coupon_code;
+        }
+        generate_coupon_code();
+      }
+    }
     add_new_order(new_order);
     update_order_details(
       total_cart_items,
